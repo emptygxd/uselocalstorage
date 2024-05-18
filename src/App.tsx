@@ -1,39 +1,31 @@
-import { useState } from "react";
-import { useLocalStorage } from "./shared/hooks/useLocalStorage";
+import { ChangeEvent, useState } from 'react';
+import { useLocalStorage } from './shared/hooks/useLocalStorage';
 
 function App() {
   const {
     value: name,
     setData,
-    removeName,
-    resetName,
-  } = useLocalStorage("name", "Anonymous");
+    removeData,
+    resetData,
+  } = useLocalStorage('name', 'Anonymous');
 
-  const [input, setInput] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   return (
     <div>
       <h1>useLocalStorage</h1>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => {
-          setInput(e.target.value);
-        }}
-      />
+      <input value={inputValue} onChange={onChangeInput} />
 
-      <button
-        onClick={() => {
-          setData(input);
-        }}
-      >
-        submit
-      </button>
+      <button onClick={() => setData(inputValue)}>submit</button>
 
-      <button onClick={removeName}>removeName</button>
-      <button onClick={resetName}>resetName</button>
+      <button onClick={removeData}>removeName</button>
+      <button onClick={resetData}>resetName</button>
 
-      <p>{name}</p>
+      <p className="name">{name}</p>
     </div>
   );
 }
